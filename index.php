@@ -7,6 +7,7 @@
     <title>Listas</title>
     <link rel="stylesheet" href="app/main.css">
     <link rel="stylesheet" href="vendor/fontawesome-6/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
     <?php Renders::CSSComponents(); ?>    
 </head>
 <body>
@@ -14,7 +15,7 @@
     <div id="listy-app"> 
         <h1>
             <span>{{title}}</span>
-            <span v-if="canShare" v-on:click="share()" class="fas fa-share-alt icon"></span>
+            <span v-on:click="share()" :class="'fas ' + (canShare ? 'fa-share-alt' : 'fa-copy') + ' icon'"></span>
             <span v-on:click="renew()" class="fas fa-plus add"></span>
         </h1>
         <list-component></list-component>

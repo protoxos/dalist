@@ -11,7 +11,7 @@
         <div class="check"></div>
     </div>
     
-    <div v-drag-and-drop:options="options">
+    <div class="list-container" v-drag-and-drop:options="options">
         <ul class="list-group">
             <li
             class="list-group-item"
@@ -20,25 +20,29 @@
             :key="item.order"
             >
                 <div class="remove">
-                    <i  v-on:click="remove(item.id)" class="fas fa-times"></i>
+                    <i v-on:click="remove(item.id)" class="fas fa-times"></i>
                 </div>
                 <div class="name">
                     <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" type="text" v-model="item.name">
                 </div>
                 <div class="quantity">
-                    <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" v-model="item.quantity" type="number" min="0" max="100">
+                    <input v-on:change="change(item.id)" @focus="$event.target.select()" v-on:keyup="save(item.id, $event)" v-model="item.quantity" type="number" min="0.00" max="100.00">
                 </div>
                 <div class="price">
-                    <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" v-model="item.price" type="number" min="0.00" step="1.00">
+                    <input v-on:change="change(item.id)" @focus="$event.target.select()" v-on:keyup="save(item.id, $event)" v-model="item.price" type="number" min="0.00" step="1.00">
                 </div>
-                <div class="total" v-on:dblclick="setPrice(item.id)">$ {{(item.price * item.quantity).toFixed(2)}}</div>
+                <div class="total" v-on:dblclick="setPrice(item.id)">{{ '$' + ToSelfFixed(item.price * item.quantity)}}</div>
                 <div class="check">
-                    <input v-on:click="change(item.id)" type="checkbox" v-model="item.check">
+                    <input v-on:click="checkItem(item.id)" type="checkbox" v-model="item.check">
                 </div>
             </li>
         </ul>
 
       </div>
 
-    <div class="total">$ {{total.toFixed(2)}}</div>
+    <div class="total">
+        <span>Total</span>
+        <div class="marked"><span>Marcados </span>{{'$' + totalcheck}}</div>
+        <div class="all"><span>Todo </span>{{'$' + totalall}}</div>
+    </div>
 </div>

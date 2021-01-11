@@ -4,7 +4,7 @@
         <div class="general">
             <div class="control">
                 <label>Producto</label>
-                <input type="text" v-model="item.name">
+                <input type="text" v-on:keyup.enter="save(item.id, $event)" @focus="$event.target.select()" v-model="item.name">
             </div>
             <i v-on:click="save()" class="far fa-plus-square"></i>
         </div>
@@ -12,11 +12,11 @@
         <div v-bind:class="{ show: showAdditional }" class="additional">
             <div class="control">
                 <label>Cantidad</label>
-                <input type="number" v-model="item.quantity">
+                <input type="number" v-on:keyup.enter="save(item.id, $event)" @focus="$event.target.select()" v-model="item.quantity">
             </div>
             <div class="control">
                 <label>Precio</label>
-                <input type="number" v-model="item.price">
+                <input type="number" v-on:keyup.enter="save(item.id, $event)" @focus="$event.target.select()" v-model="item.price">
             </div>
         </div>
     </div>

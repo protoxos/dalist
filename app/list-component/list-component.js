@@ -58,10 +58,38 @@ Vue.component('list-component', {
                 }, 
                 success: res => {
                     if(res.status == 1) {
-                        this.items = res.data;
+                        // Una pachequez para limpiar los 0s demas en el precio y cantidad...
+                        this.items = res.data.map(m => {
+                            m.quantity = this.ToSelfFixed(m.quantity);
+                            m.price = this.ToSelfFixed(m.price);
+                            return m;
+                        });
                     }
                 }
             });
+        },
+        ToSelfFixed(num) {
+            if(num.toString().indexOf('.') == -1)
+                return num;
+                
+            // con la update, nos llegan 0.0000
+            let toIndex = 4;
+            let end = false;
+            let deci = num.toString().split('.');
+
+            deci[1]
+                .split('')
+                .reverse()
+                .forEach(v => {
+                    if(v == '0' && end == false)
+                        toIndex--;
+                    else
+                        end = true;
+                });
+            deci[1] = deci[1].substring(0, toIndex);
+            num = deci[0] + (deci.length > 0 ? '.' + deci[1] : '');
+
+            return num * 1;
         },
         save(id, e) {
 
@@ -111,6 +139,10 @@ Vue.component('list-component', {
         change(id) {
             this._save(id);
         },
+        
+        checkItem(id) {
+            this._save(id, true);
+        },
         setPrice(id) {
             this.items.forEach((f, i) => {
                 if(f.id == id) {
@@ -120,7 +152,7 @@ Vue.component('list-component', {
 
             this._save(id);
         },
-        _save(id) {
+        _save(id, isChecking) {
             this.debounce = setTimeout(() => {
 
                 const hash = currentHash();
@@ -133,20 +165,81 @@ Vue.component('list-component', {
                         action: 'save',
                         list_hash: hash,
                         item: JSON.stringify(item)
+                    },
+                    success: data => {
+                        //  Si todo sale bien...
+                        if(data.status == 1 && isChecking) {
+                            //  Si es asi, topeguay! lo ordenamos
+                            let currentIndex = -1;
+                            let newIndex = -1;
+                            let reord = false;
+                            
+                            //  Conseguimos el item actual y el primer marcado
+                            this.items.forEach((f, i) => {
+                                // busco el item actual
+                                if(f.id == item.id)
+                                    currentIndex = i;
+
+                                else if(f.check && newIndex == -1) {
+                                    if(i > 0)
+                                        newIndex = i - 1;
+                                }
+                            });
+
+                            // Checamos el estatus del check de item
+                            if(item.check) {
+                                //  Si lo marcaron, lo colocamos al principio de los marcados...
+                                if(currentIndex > -1) {
+
+                                    if( newIndex == -1 ) newIndex = this.items.length - 1;
+
+                                    const ci = this.items[currentIndex];
+                                    
+                                    this.items.splice(currentIndex, 1);
+                                    this.items.splice(newIndex, 0, ci);
+                                    reord = true;
+                                }
+                            } else {
+
+                                const ci = this.items[currentIndex];
+                                this.items.splice(currentIndex, 1);
+                                this.items.unshift(ci);
+                                reord = true;
+
+                            }
+
+                            //  Si se cambió el orden, lo guardamos.
+                            if(reord)
+                                this.saveOrder();
+
+                        }
                     }
                 });
 
-            }, 1000);
+            }, 
+
+            //  Si se esta unicamente checkeando, no se espera nada...
+            isChecking === true ? 0 : 1000);
         }
     },
     computed: {
-        total: {
+        totalcheck: {
+            get() {
+                let total = 0;
+                this.items.forEach(item => {
+                    if(item.check)
+                        total += item.quantity * item.price;
+                });
+                return this.ToSelfFixed(total);
+            }
+        },
+        totalall: {
             get() {
                 let total = 0;
                 this.items.forEach(item => {
                     total += item.quantity * item.price;
                 });
-                return total;
+                return this.ToSelfFixed(total);
             }
         },
         url: {

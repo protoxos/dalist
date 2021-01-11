@@ -18,16 +18,45 @@
 }
 
 [list-component] > .total {
-    text-align: right;
     margin-top: 10px;
     padding-top: 10px;
     font-size: 1em;
+    background-color: #004777;
+    color: #FFF;
+}
+[list-component] > .total > span {
+    margin-bottom: 10px;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+[list-component] > .total > .marked {
+    font-size: 14pt;
+    text-align: center;
+    color: #b3dfff;
+}
+[list-component] > .total > .marked > span {
+    display: block;
+    font-size: 7pt;
+    text-transform: uppercase;
+    color: #FFF;
+    padding: 5px;
+}
+[list-component] > .total > .all {
+    font-size: 8pt;
+    text-align: center;
+    padding: 10px;
+    color: #FFF;
+    text-transform: uppercase;
+}
+[list-component] > .total > .all > span {
     font-weight: 600;
 }
 
 [list-component] .list-group-item {
     display: grid;
-    grid-template-columns: 5% 30% 15% 15% 20% 5%;
+    grid-template-columns: 5% 30% 15% 15% 18% 5%;
     padding: 0.6em 0;
     align-items: center;
     grid-gap: 2%;
@@ -49,6 +78,7 @@
 
 [list-component] ul {
     padding: 0;
+    margin: 0;
 }
 
 [list-component] .list-group-item.header {
@@ -71,4 +101,43 @@
 [list-component] .list-group-item > div.quantity > input,
 [list-component] .list-group-item > div.price > input { 
     text-align: center;
+}
+
+@media (max-width: 500px) {
+    [list-component], 
+    [list-component] > .total,
+    [list-component] .list-group-item.header,
+    [list-component] .list-container
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    [list-component] { 
+        width: auto;
+        top: 40px;
+    }
+
+    [list-component] > .total {
+        bottom: 0;
+        top: unset;
+        height: 120px;
+    }
+
+    [list-component] .list-group-item.header {
+        bottom: unset;
+        top: 90px;
+        left: 1em;
+        right: 1em;
+    }
+    [list-component] .list-container {
+        top: 110px;
+        left: 1em;
+        right: 1em;
+        bottom: 130px;
+        overflow-y: auto;
+    }
 }

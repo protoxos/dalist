@@ -25,3 +25,14 @@
 [new-item-component] .new-item .control {
     margin-bottom: 1em;
 }
+@media (max-width: 500px) {
+    [new-item-component] {
+        position: absolute;
+        top: 20px;
+        left: 1em;
+        right: 1em;
+        z-index: 1;
+        background-color: #FFF;
+        border-bottom: solid 1px #DDD;
+    }
+}
