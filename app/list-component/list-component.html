@@ -1,0 +1,44 @@
+<div list-component>
+
+    <new-item-component @onCreateItem="onCreateItem"></new-item-component>
+
+    <div class="list-group-item header">
+        <div class="remove"></div>
+        <div class="name">Producto</div>
+        <div class="quantity">Cantidad</div>
+        <div class="price">Precio</div>
+        <div class="total">Total</div>
+        <div class="check"></div>
+    </div>
+    
+    <div v-drag-and-drop:options="options">
+        <ul class="list-group">
+            <li
+            class="list-group-item"
+            :sortid="item.id"
+            v-for="item in items"
+            :key="item.order"
+            >
+                <div class="remove">
+                    <i  v-on:click="remove(item.id)" class="fas fa-times"></i>
+                </div>
+                <div class="name">
+                    <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" type="text" v-model="item.name">
+                </div>
+                <div class="quantity">
+                    <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" v-model="item.quantity" type="number" min="0" max="100">
+                </div>
+                <div class="price">
+                    <input v-on:change="change(item.id)" v-on:keyup="save(item.id, $event)" v-model="item.price" type="number" min="0.00" step="1.00">
+                </div>
+                <div class="total" v-on:dblclick="setPrice(item.id)">$ {{(item.price * item.quantity).toFixed(2)}}</div>
+                <div class="check">
+                    <input v-on:click="change(item.id)" type="checkbox" v-model="item.check">
+                </div>
+            </li>
+        </ul>
+
+      </div>
+
+    <div class="total">$ {{total.toFixed(2)}}</div>
+</div>
