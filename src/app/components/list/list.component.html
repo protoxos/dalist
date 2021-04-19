@@ -1,0 +1,34 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th class="col-5"></th>
+        <th class="col-55">Producto</th>
+        <th class="col-15 hide-on-mobile">Cantidad</th>
+        <th class="col-15 hide-on-mobile">Precio</th>
+        <th class="col-15">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <ng-container *ngIf="List.Items.length > 0">
+
+        <tr *ngFor="let item of List.Items" (click)="EditItem(item)">
+
+          <td class="align-middle"> <i class="fa" [class]="GetBoughtClass(item)" (click)="SetBought(item)"></i> </td>
+          <td class="align-middle">{{item.Name}}</td>
+          <td class="align-middle hide-on-mobile">{{item.Quantity}}</td>
+          <td class="align-middle hide-on-mobile">${{item.Price}}</td>
+          <td class="align-middle">${{item.Quantity * item.Price}}</td>
+
+        </tr>
+
+    </ng-container>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="text-center">Aun no hay elementos en la lista</div>
+
+

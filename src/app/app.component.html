@@ -1,0 +1,20 @@
+<div class="container border border-radius p-4">
+
+  <div class="row">
+    <div class="col-md-9">
+      <h3 class="align-middle">
+        <i class="fa fa-edit"></i>
+        {{List.Name === '' ? '(Lista sin nombre)' : List.Name}}
+      </h3>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-dark float-right" (click)="AddItem()"> <i class="fa fa-plus"></i> Agregar </button>
+    </div>
+  </div>
+  <hr>
+
+  <app-list [List]="List"></app-list>
+
+  <app-edit-item></app-edit-item>
+  <app-login></app-login>
+</div>

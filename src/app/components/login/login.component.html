@@ -1,0 +1,26 @@
+<div *ngIf="Show && Auth.LoggedIn === false" id="editItem" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editItemLabel">Iniciar sesión</h5>
+        <button type="button" (click)="Exit()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="input_user">Usuario</label>
+          <input #user type="email" class="form-control" id="input_user">
+        </div>
+        <div class="form-group">
+          <label for="input_password">Contraseña</label>
+          <input #pass type="password" class="form-control" id="input_password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="Auth.Login(user.value, pass.value)">Iniciar sesión</button>
+        <button type="button" class="btn" (click)="Exit()" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
